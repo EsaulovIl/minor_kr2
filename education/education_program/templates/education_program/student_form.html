@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Новый студент{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Добавить студента</h1>
+
+  <form method="post" class="row g-3">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="col-12">
+      <button class="btn btn-primary">Сохранить</button>
+      <a href="{% url 'education_program:index' %}" class="btn btn-secondary ms-2">Отмена</a>
+    </div>
+  </form>
+{% endblock %}

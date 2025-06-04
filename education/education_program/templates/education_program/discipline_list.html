@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Список дисциплин{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Список дисциплин</h1>
+
+{% if disciplines %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Название дисциплины</th>
+        <th>Программа</th>
+        <th>Кредиты</th>
+        <th>Описание</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for d in disciplines %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ d.name }}</td>
+        <td>{{ d.program.title }}</td>
+        <td>{{ d.credits }}</td>
+        <td>{{ d.description|default:"–" }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">Пока нет ни одной дисциплины.</p>
+{% endif %}
+{% endblock %}

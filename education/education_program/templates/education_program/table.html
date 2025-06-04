@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Таблица зачислений{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Зачисления студентов</h1>
+
+<form method="get" class="row g-2 mb-4">
+  <div class="col-md-2">
+    <input type="number" name="year" class="form-control"
+           placeholder="Год" value="{{ current_year }}">
+  </div>
+  <div class="col-md-3">
+    <select name="program" class="form-select">
+      <option value="">Все программы</option>
+      {% for prog in programs %}
+        <option value="{{ prog.id }}"
+          {% if prog.id == current_program %}selected{% endif %}>
+          {{ prog.title }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <select name="study_form" class="form-select">
+      <option value="">Все формы обучения</option>
+      {% for code,label in study_forms %}
+        <option value="{{ code }}" {% if code == current_study_form %}selected{% endif %}>
+          {{ label }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <select name="status" class="form-select">
+      <option value="">Все статусы</option>
+      {% for code,label in statuses %}
+        <option value="{{ code }}" {% if code == current_status %}selected{% endif %}>
+          {{ label }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <input type="text" name="group" class="form-control"
+           placeholder="Группа" value="{{ current_group }}">
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-secondary w-100">Применить</button>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>
+        <a href="?{{ sort_urls.student__full_name }}">Студент</a>
+      </th>
+      <th>
+        <a href="?{{ sort_urls.student__date_of_birth }}">Дата рождения</a>
+      </th>
+      <th>
+        <a href="?{{ sort_urls.program__title }}">Программа</a>
+      </th>
+      <th>
+        <a href="?{{ sort_urls.group }}">Группа</a>
+      </th>
+      <th>
+        <a href="?{{ sort_urls.start_year }}">Год поступления</a>
+      </th>
+      <th>
+        <a href="?{{ sort_urls.gpa }}">GPA</a>
+      </th>
+      <th>Форма</th>
+      <th>Статус</th>
+      <th>Создано</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for e in enrollments %}
+      <tr>
+        <td>{{ e.id }}</td>
+        <td>{{ e.student.full_name }}</td>
+        <td>
+          {% if e.student.date_of_birth %}
+            {{ e.student.date_of_birth|date:"d.m.Y" }}
+          {% else %}
+            –
+          {% endif %}
+        </td>
+        <td>{{ e.program.title }}</td>
+        <td>{{ e.group }}</td>
+        <td>{{ e.start_year }}</td>
+        <td>{{ e.gpa }}</td>
+        <td>{{ e.get_study_form_display }}</td>
+        <td>{{ e.get_status_display }}</td>
+        <td>{{ e.created_at|date:"d.m.Y H:i" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="10" class="text-center">Нет данных</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h5 class="mt-4">Статистика по GPA (учитывает фильтры)</h5>
+<ul>
+  <li>Количество записей: {{ stats.count }}</li>
+  <li>Среднее: {{ stats.avg|floatformat:2 }}</li>
+  <li>Минимум: {{ stats.min|floatformat:2 }}</li>
+  <li>Максимум: {{ stats.max|floatformat:2 }}</li>
+</ul>
+{% endblock %}

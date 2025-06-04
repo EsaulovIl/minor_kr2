@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Учебная статистика{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Учебная статистика</h1>
+
+  <div class="list-group">
+    <a href="{% url 'education_program:student_add' %}"  class="list-group-item list-group-item-action">Добавить студента</a>
+    <a href="{% url 'education_program:program_add' %}"  class="list-group-item list-group-item-action">Добавить программу</a>
+    <a href="{% url 'education_program:enroll_add' %}"   class="list-group-item list-group-item-action">Зачислить студента</a>
+    <a href="{% url 'education_program:table' %}"        class="list-group-item list-group-item-action">Таблица зачислений / статистика</a>
+  </div>
+{% endblock %}

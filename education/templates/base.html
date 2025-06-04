@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Учёба в Вышке{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<header class="bg-light border-bottom mb-4">
+    <div class="container-fluid">
+        <nav class="nav nav-pills py-2 flex-wrap">
+
+            <a class="nav-link{% if request.path == '/education/' %} active{% endif %}"
+               href="{% url 'education_program:index' %}">Главная</a>
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'student_add' %} active{% endif %}"
+               href="{% url 'education_program:student_add' %}">Студент</a>
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'program_add' %} active{% endif %}"
+               href="{% url 'education_program:program_add' %}">Программа</a>
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'enroll_add' %} active{% endif %}"
+               href="{% url 'education_program:enroll_add' %}">Зачисление</a>
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'discipline_add' %} active{% endif %}"
+               href="{% url 'education_program:discipline_add' %}">Дисциплина</a>
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'discipline_list' %} active{% endif %}"
+               href="{% url 'education_program:discipline_list' %}">Список дисциплин</a>
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'table' %} active{% endif %}"
+               href="{% url 'education_program:table' %}">Список студентов</a>
+        </nav>
+    </div>
+</header>
+
+<body>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
