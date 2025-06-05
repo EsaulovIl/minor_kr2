@@ -4,44 +4,34 @@ from .models import Profile, Program, ProgramStaff, Classmate, GenericPage
 
 
 def _get_generic_nav_items():
-    """
-    Вспомогательная функция: возвращает queryset тех GenericPage,
-    где menu_order > 0, отсортированных по -menu_order.
-    Будем использовать её везде, чтобы передавать в шаблон.
-    """
     return GenericPage.objects.filter(menu_order__gt=0).order_by("-menu_order")
 
 
 def home(request):
-    """
-    Простая страница-обзвонка: можно редиректить на /my-education/me/ или
-    отображать набор ссылок.
-    """
-    return render(request, "my_education/home.html")
+    return render(request, "my_education/home.html", {
+        "generic_nav_items": GenericPage.objects.filter(menu_order__gt=0).order_by("-menu_order"),
+    })
 
 
 def profile_detail(request):
-    """
-    Страница «Я». Берём единственный объект Profile или 404.
-    """
     profile = get_object_or_404(Profile)
-    return render(request, "my_education/profile_detail.html", {"profile": profile})
+    return render(request, "my_education/profile_detail.html", {
+        "profile": profile,
+        "generic_nav_items": GenericPage.objects.filter(menu_order__gt=0).order_by("-menu_order"),
+    })
 
 
 def program_detail(request):
-    """
-    Страница «Описание образовательной программы». Берём первый Program.
-    """
     program = Program.objects.first()
     if not program:
         return render(request, "my_education/no_program.html")
-    return render(request, "my_education/program_detail.html", {"program": program})
+    return render(request, "my_education/program_detail.html", {
+        "program": program,
+        "generic_nav_items": GenericPage.objects.filter(menu_order__gt=0).order_by("-menu_order"), }
+                  )
 
 
 def program_staff(request):
-    """
-    Страница «Менеджмент ОП»: список сотрудников (руководитель + менеджеры).
-    """
     program = Program.objects.first()
     if not program:
         return render(request, "my_education/no_program.html")
@@ -50,15 +40,11 @@ def program_staff(request):
     return render(request, "my_education/program_staff.html", {
         "program": program,
         "staff": staff,
+        "generic_nav_items": GenericPage.objects.filter(menu_order__gt=0).order_by("-menu_order"),
     })
 
 
 def classmate_list(request):
-    """
-    Страница «Мои сокурсники»:
-      - фильтрация по GET-параметру ?q=
-      - сортировка по ?sort=<поле> или ?sort=-<поле> (разрешенные: full_name, email, phone)
-    """
     program = Program.objects.first()
     if not program:
         return render(request, "my_education/no_program.html")
@@ -86,14 +72,11 @@ def classmate_list(request):
         "current_q": q,
         "current_sort": sort,
         "program": program,
+        "generic_nav_items": GenericPage.objects.filter(menu_order__gt=0).order_by("-menu_order"),
     })
 
 
 def generic_page(request, page_slug):
-    """
-    Вьюха для «универсальных» страниц. Берёт GenericPage по page_slug,
-    строит меню из всех GenericPage(menu_order>0) и рендерит контент.
-    """
     page = get_object_or_404(GenericPage, page_slug=page_slug)
     generic_nav_items = GenericPage.objects.filter(menu_order__gt=0).order_by("-menu_order")
 

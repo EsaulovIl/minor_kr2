@@ -4,7 +4,7 @@ from django.urls import reverse
 
 class Profile(models.Model):
     full_name = models.CharField("ФИО", max_length=200)
-    #photo = models.ImageField("Фото", upload_to="my_education/profiles/", blank=True)
+    # photo = models.ImageField("Фото", upload_to="my_education/profiles/", blank=True)
     email = models.EmailField("E-mail")
     phone = models.CharField("Телефон", max_length=20, blank=True)
     resume = models.TextField("Резюме", blank=True)
@@ -48,7 +48,7 @@ class ProgramStaff(models.Model):
         related_name="staff"
     )
     full_name = models.CharField("ФИО", max_length=200)
-    #photo = models.ImageField("Фото", upload_to="my_education/staff/", blank=True)
+    # photo = models.ImageField("Фото", upload_to="my_education/staff/", blank=True)
     email = models.EmailField("E-mail")
     phone = models.CharField("Телефон", max_length=20, blank=True)
     role = models.CharField("Роль", max_length=20, choices=ROLE_CHOICES, default=ROLE_MANAGER)
@@ -72,7 +72,7 @@ class Classmate(models.Model):
         blank=True
     )
     full_name = models.CharField("ФИО", max_length=200)
-    #photo = models.ImageField("Фото", upload_to="my_education/classmates/", blank=True)
+    # photo = models.ImageField("Фото", upload_to="my_education/classmates/", blank=True)
     email = models.EmailField("E-mail")
     phone = models.CharField("Телефон", max_length=20, blank=True)
 

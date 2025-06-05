@@ -53,15 +53,15 @@ def table(request):
     Вывод всех Enrollment с расширенной фильтрацией/сортировкой через GET-параметры:
 
       Фильтры (GET):
-        ?year=<год>               – зачисления только указанного года
-        &program=<id_program>     – зачисления по определённой программе
-        &study_form=<значение>    – фильтр по форме обучения
-        &status=<значение>        – фильтр по статусу
-        &group=<строка>           – фильтр по вхождению в поле «группа»
+        ?year=<год> – зачисления только указанного года
+        &program=<id_program> – зачисления по определённой программе
+        &study_form=<значение> – фильтр по форме обучения
+        &status=<значение> – фильтр по статусу
+        &group=<строка> – фильтр по вхождению в поле «группа»
 
       Сортировка (GET):
-        ?sort=<поле>              – сортировка по возрастанию (если без «-»)
-        ?sort=-<поле>             – сортировка по убыванию (если с «-»)
+        ?sort=<поле> – сортировка по возрастанию (если без «-»)
+        ?sort=-<поле> – сортировка по убыванию (если с «-»)
         Допустимые поля для sort:
           id, -id,
           gpa, -gpa,
@@ -72,34 +72,27 @@ def table(request):
     """
     qs = Enrollment.objects.select_related("student", "program")
 
-    # ─── ФИЛЬТРАЦИЯ ─────────────────────────────────────────
     year = request.GET.get("year")
     program_id = request.GET.get("program")
     study_form = request.GET.get("study_form")
     status = request.GET.get("status")
     group_q = request.GET.get("group")
 
-    # фильтр по году
     if year:
         qs = qs.filter(start_year=year)
 
-    # фильтр по программе
     if program_id:
         qs = qs.filter(program_id=program_id)
 
-    # фильтр по форме обучения
     if study_form:
         qs = qs.filter(study_form=study_form)
 
-    # фильтр по статусу
     if status:
         qs = qs.filter(status=status)
 
-    # фильтр по вхождению группы (case‐insensitive)
     if group_q:
         qs = qs.filter(group__icontains=group_q)
 
-    # ─── СОРТИРОВКА ────────────────────────────────────────
     SORTABLE_FIELDS = [
         "student__full_name",
         "student__date_of_birth",
@@ -116,7 +109,6 @@ def table(request):
 
     qs = qs.order_by(current_sort)
 
-    # ─── АГРЕГАТЫ ПО GPA ────────────────────────────────────
     stats = qs.aggregate(
         count=Count("gpa"),
         avg=Avg("gpa"),
@@ -138,12 +130,10 @@ def table(request):
         params["sort"] = next_sort
         sort_urls[field] = params.urlencode()
 
-    # ─── СПИСКИ ДЛЯ СЕЛЕКТОВ В ШАБЛОНЕ ───────────────────────
     programs = EducationProgram.objects.all().order_by("title")
     study_forms = Enrollment.FORM_CHOICES
     statuses = Enrollment.STATUS_CHOICES
 
-    # ─── ПОДГОТОВКА КОНТЕКСТА ───────────────────────────────
     context = {
         "enrollments": qs,
         "stats": stats,

@@ -52,7 +52,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>#</th>
+      <th>id</th>
       <th>
         <a href="?{{ sort_urls.student__full_name }}">Студент</a>
       </th>
@@ -73,7 +73,6 @@
       </th>
       <th>Форма</th>
       <th>Статус</th>
-      <th>Создано</th>
     </tr>
   </thead>
   <tbody>
@@ -94,7 +93,6 @@
         <td>{{ e.gpa }}</td>
         <td>{{ e.get_study_form_display }}</td>
         <td>{{ e.get_status_display }}</td>
-        <td>{{ e.created_at|date:"d.m.Y H:i" }}</td>
       </tr>
     {% empty %}
       <tr><td colspan="10" class="text-center">Нет данных</td></tr>
@@ -102,7 +100,7 @@
   </tbody>
 </table>
 
-<h5 class="mt-4">Статистика по GPA (учитывает фильтры)</h5>
+<h5 class="mt-4">Статистика по GPA</h5>
 <ul>
   <li>Количество записей: {{ stats.count }}</li>
   <li>Среднее: {{ stats.avg|floatformat:2 }}</li>

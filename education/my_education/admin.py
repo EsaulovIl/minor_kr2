@@ -8,15 +8,13 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ("full_name", "email", "phone")
 
 
-
-
-
-
 @admin.register(Program)
 class ProgramAdmin(admin.ModelAdmin):
     list_display = ("title",)
     search_fields = ("title",)
-   #inlines = (ProgramStaffInline, ClassmateInline)
+
+
+# inlines = (ProgramStaffInline, ClassmateInline)
 
 
 @admin.register(ProgramStaff)
