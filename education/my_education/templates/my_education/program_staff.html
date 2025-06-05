@@ -1,0 +1,28 @@
+{% extends "my_education/base.html" %}
+{% block title %}Менеджмент ОП — {{ program.title }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Менеджмент ОП: {{ program.title }}</h1>
+
+{% if staff %}
+<div class="row">
+    {% for s in staff %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if s.photo %}
+            <img src="{{ s.photo.url }}" class="card-img-top" alt="{{ s.full_name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ s.full_name }}</h5>
+                <p class="card-text"><strong>Роль:</strong> {{ s.get_role_display }}</p>
+                <p><strong>E-mail:</strong> <a href="mailto:{{ s.email }}">{{ s.email }}</a></p>
+                <p><strong>Телефон:</strong> {{ s.phone|default:"–" }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">Сотрудники ОП ещё не добавлены.</p>
+{% endif %}
+{% endblock %}

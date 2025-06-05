@@ -1,0 +1,47 @@
+{% extends "my_education/base.html" %}
+{% block title %}Мои сокурсники — {{ program.title }}{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Мои сокурсники ({{ program.title }})</h1>
+
+  <form method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+      <input type="text" name="q" class="form-control"
+             placeholder="Поиск по ФИО, e-mail или телефону" value="{{ current_q }}">
+    </div>
+    <div class="col-md-3">
+      <select name="sort" class="form-select">
+        <option value="full_name" {% if current_sort == "full_name" %}selected{% endif %}>По ФИО ↑</option>
+        <option value="-full_name" {% if current_sort == "-full_name" %}selected{% endif %}>По ФИО ↓</option>
+        <option value="email" {% if current_sort == "email" %}selected{% endif %}>По e-mail ↑</option>
+        <option value="-email" {% if current_sort == "-email" %}selected{% endif %}>По e-mail ↓</option>
+        <option value="phone" {% if current_sort == "phone" %}selected{% endif %}>По телефону ↑</option>
+        <option value="-phone" {% if current_sort == "-phone" %}selected{% endif %}>По телефону ↓</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-secondary">Применить</button>
+    </div>
+  </form>
+
+  {% if classmates %}
+    <div class="row">
+      {% for m in classmates %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            {% if m.photo %}
+              <img src="{{ m.photo.url }}" class="card-img-top" alt="{{ m.full_name }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ m.full_name }}</h5>
+              <p><strong>E-mail:</strong> <a href="mailto:{{ m.email }}">{{ m.email }}</a></p>
+              <p><strong>Телефон:</strong> {{ m.phone|default:"–" }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">Сокурсники не найдены.</p>
+  {% endif %}
+{% endblock %}

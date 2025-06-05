@@ -1,0 +1,15 @@
+{% extends "my_education/base.html" %}
+{% block title %}Главная — Моё обучение{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1>Добро пожаловать</h1>
+    <p class="lead">Здесь вы найдёте информацию обо мне, моей образовательной программе и моих сокурсниках.</p>
+    <div class="mt-4">
+        <a href="{% url 'my_education:profile' %}" class="btn btn-primary me-2">Я</a>
+        <a href="{% url 'my_education:program' %}" class="btn btn-primary me-2">Моя ОП</a>
+        <a href="{% url 'my_education:program_staff' %}" class="btn btn-primary me-2">Менеджмент ОП</a>
+        <a href="{% url 'my_education:mates' %}" class="btn btn-primary">Сокурсники</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "my_education/base.html" %}
+{% block title %}Моя ОП — {{ program.title }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Моя образовательная программа</h1>
+<h2>{{ program.title }}</h2>
+{% if program.link %}
+<p><strong>Ссылка на сайт ОП:</strong>
+    <a href="{{ program.link }}" target="_blank">{{ program.link }}</a>
+</p>
+{% endif %}
+<hr>
+
+<h5>Что я буду изучать</h5>
+<p>{{ program.description|linebreaksbr|default:"Информация не указана" }}</p>
+
+<h5>Чему научусь</h5>
+<p>{{ program.skills|linebreaksbr|default:"Информация не указана" }}</p>
+
+<h5>Преимущества программы</h5>
+<p>{{ program.advantages|linebreaksbr|default:"Информация не указана" }}</p>
+
+<h5>Перспективы после обучения</h5>
+<p>{{ program.prospects|linebreaksbr|default:"Информация не указана" }}</p>
+{% endblock %}

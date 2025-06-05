@@ -1,0 +1,23 @@
+{% extends "my_education/base.html" %}
+{% block title %}Я — {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Я</h1>
+<div class="row">
+    <div class="col-md-4 text-center">
+        {% if profile.photo %}
+        <img src="{{ profile.photo.url }}" alt="{{ profile.full_name }}" class="img-fluid rounded mb-3">
+        {% else %}
+        <div class="alert alert-secondary">Фото не загружено</div>
+        {% endif %}
+        <p><strong>Телефон:</strong> {{ profile.phone|default:"–" }}</p>
+        <p><strong>E-mail:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+    </div>
+    <div class="col-md-8">
+        <h3>{{ profile.full_name }}</h3>
+        <hr>
+        <h5>Резюме</h5>
+        <p>{{ profile.resume|linebreaksbr|default:"Резюме не заполнено" }}</p>
+    </div>
+</div>
+{% endblock %}

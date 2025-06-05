@@ -1,0 +1,52 @@
+{% extends "my_education/base.html" %}
+{% block title %}{{ page.page_title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <h5>Навигация</h5>
+        <ul class="nav flex-column">
+            {# «Жёсткие» ссылки #}
+            <li class="nav-item">
+                <a class="nav-link{% if request.resolver_match.url_name == 'profile' %} active{% endif %}"
+                   href="{% url 'my_education:profile' %}">Я</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if request.resolver_match.url_name == 'program' %} active{% endif %}"
+                   href="{% url 'my_education:program' %}">Моя ОП</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if request.resolver_match.url_name == 'program_staff' %} active{% endif %}"
+                   href="{% url 'my_education:program_staff' %}">Менеджмент ОП</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if request.resolver_match.url_name == 'mates' %} active{% endif %}"
+                   href="{% url 'my_education:mates' %}">Сокурсники</a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+
+            {# Динамические GenericPage #}
+            {% for gp in generic_nav_items %}
+            <li class="nav-item">
+                <a class="nav-link{% if request.path == gp.get_absolute_url %} active{% endif %}"
+                   href="{{ gp.get_absolute_url }}">
+                    {{ gp.menu_label }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <h1>{{ page.page_title }}</h1>
+        <hr>
+        <div>
+            {{ page.content_html|safe }}
+        </div>
+        <p class="text-muted mt-4">
+            Последнее обновление: {{ page.updated_at|date:"d.m.Y H:i" }}
+        </p>
+    </div>
+</div>
+{% endblock %}
